@@ -115,7 +115,7 @@ class _CadastroPessoaState extends State<CadastroPessoa> {
         ),
       );
     }
-
+//teste
     setState(() {});
 
     listaTemporaria = null;
