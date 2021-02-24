@@ -134,12 +134,26 @@ class _CadastroPessoaState extends State<CadastroPessoa> {
   _dividirLista() async {
     List itensRecuperados = await _db.recuperarItens();
     List pessoasRecuperadas = await _db.recuperarPessoas();
+    int index = 0;
 
     for (var item in itensRecuperados) {
       Item itenTemp = Item.fromMap(item);
-      for (int i = 0; i < int.parse(itenTemp.quantidade); i++) {
-        _itensList.add(itenTemp.nome);
-        print(_itensList);
+      if (itenTemp.quantidade != 0) {
+        for (int i = 0; i < int.parse(itenTemp.quantidade); i++) {
+          if (index < pessoasRecuperadas.length) {
+            Pessoa pessoaTemp = Pessoa.fromMap(pessoasRecuperadas[index]);
+            pessoaTemp.itens += itenTemp.nome;
+            print("${pessoaTemp.nome} : ${pessoaTemp.itens}");
+            index++;
+          }
+          else{
+            index = 0;
+             Pessoa pessoaTemp = Pessoa.fromMap(pessoasRecuperadas[index]);
+            pessoaTemp.itens += itenTemp.nome;
+            print("${pessoaTemp.nome} : ${pessoaTemp.itens}");
+            index++;
+          }
+        }
       }
     }
   }
