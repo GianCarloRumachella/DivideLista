@@ -15,7 +15,7 @@ class _CadastroItemState extends State<CadastroItem> {
 
   List<DataRow> _rowList = [];
 
-    _exibirCadastro({Item item}) {
+  _exibirCadastro({Item item}) {
     String textoSalvarAtualizar = "";
     if (item == null) {
       _nomeController.text = "";
@@ -98,7 +98,7 @@ class _CadastroItemState extends State<CadastroItem> {
   _recuperarItens() async {
     List itensRecuperados = await _db.recuperarItens();
     List<Item> listaTemporaria = [];
-    
+
     for (var item in itensRecuperados) {
       Item itens = Item.fromMap(item);
       listaTemporaria.add(itens);
@@ -180,13 +180,14 @@ class _CadastroItemState extends State<CadastroItem> {
       appBar: AppBar(
         title: Text("Cadastrar Item"),
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () {
-          _exibirCadastro();
-          // print("Floating Action BUtton Pressionado!!!!");
-        },
-      ),
+      persistentFooterButtons: [
+        RaisedButton(
+          onPressed: () {
+            _exibirCadastro();
+          },
+          child: Text("AdicionarItem"),
+        ),
+      ],
       body: SingleChildScrollView(
         child: _dataTable(),
       ),

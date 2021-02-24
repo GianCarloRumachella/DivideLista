@@ -168,13 +168,20 @@ class _CadastroPessoaState extends State<CadastroPessoa> {
       appBar: AppBar(
         title: Text("Cadastrar Pessoa"),
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () {
-          _exibirCadastro();
-           print("Floating Action BUtton Pressionado!!!!");
-        },
-      ),
+      persistentFooterButtons: [
+        RaisedButton(
+          onPressed: () {
+            _exibirCadastro();
+          },
+          child: Text("Adicionar Pessoa"),
+        ),
+        RaisedButton(
+          onPressed: () {
+            print("Dividindo a lista");
+          },
+          child: Text("Dividir Lista"),
+        ),
+      ],
       body: SingleChildScrollView(
         child: _dataTable(),
       ),
