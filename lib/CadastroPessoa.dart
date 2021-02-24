@@ -16,6 +16,8 @@ class _CadastroPessoaState extends State<CadastroPessoa> {
   List<DataRow> _rowList = [];
   List<String> _itensList = [];
 
+  String itens = "";
+
   _exibirCadastro({Pessoa pessoa}) {
     String textoSalvarAtualizar = "";
     if (pessoa == null) {
@@ -67,7 +69,6 @@ class _CadastroPessoaState extends State<CadastroPessoa> {
 
   _salvarAtualizarItem({Pessoa pessoaSelecionada}) async {
     String nome = _nomeController.text;
-    String itens = "";
 
     if (pessoaSelecionada == null) {
       Pessoa pessoa = Pessoa(nome: nome, itens: itens);
@@ -75,7 +76,7 @@ class _CadastroPessoaState extends State<CadastroPessoa> {
       print("resultado salvo:" + resultado.toString());
     } else {
       pessoaSelecionada.nome = nome;
-      pessoaSelecionada.itens = itens;
+      pessoaSelecionada.itens = pessoaSelecionada.itens;
       int resultado = await _db.atualizarPessoas(pessoaSelecionada);
       print("resultado atulizado:" + resultado.toString());
     }
@@ -134,28 +135,41 @@ class _CadastroPessoaState extends State<CadastroPessoa> {
   _dividirLista() async {
     List itensRecuperados = await _db.recuperarItens();
     List pessoasRecuperadas = await _db.recuperarPessoas();
+    List<Pessoa> pessoasTemporarias = [];
     int index = 0;
 
+    for (var pessoa in pessoasRecuperadas) {
+      Pessoa pessoas = Pessoa.fromMap(pessoa);
+      pessoasTemporarias.add(pessoas);
+    }
+
+    _itensList.clear();
+
     for (var item in itensRecuperados) {
-      Item itenTemp = Item.fromMap(item);
-      if (itenTemp.quantidade != 0) {
-        for (int i = 0; i < int.parse(itenTemp.quantidade); i++) {
-          if (index < pessoasRecuperadas.length) {
-            Pessoa pessoaTemp = Pessoa.fromMap(pessoasRecuperadas[index]);
-            pessoaTemp.itens += itenTemp.nome;
-            print("${pessoaTemp.nome} : ${pessoaTemp.itens}");
-            index++;
-          }
-          else{
-            index = 0;
-             Pessoa pessoaTemp = Pessoa.fromMap(pessoasRecuperadas[index]);
-            pessoaTemp.itens += itenTemp.nome;
-            print("${pessoaTemp.nome} : ${pessoaTemp.itens}");
-            index++;
-          }
+      Item itemTemp = Item.fromMap(item);
+      if (int.parse(itemTemp.quantidade) != 0) {
+        for (int i = 0; i < int.parse(itemTemp.quantidade); i++) {
+          _itensList.add(itemTemp.nome);
         }
       }
+
+      //pega o item e faz um for distribuindo entre as pessoas
+      for (int i = 0; i < _itensList.length; i++) {
+       
+        /* if (index < pessoasRecuperadas.length) {
+          index++;
+           pessoasTemporarias[index].itens += _itensList[i];
+
+        print(
+            "pessoasTemporarias: ${pessoasTemporarias[index].nome} ${pessoasTemporarias[index].itens}");
+        } else {
+          index = 0;
+        } */
+      }
+      //for para salvar o item um por um
     }
+
+    print("tamanho da lista : ${_itensList.length}");
   }
 
   _dataTable() {
