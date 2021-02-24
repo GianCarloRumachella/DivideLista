@@ -85,7 +85,7 @@ class _CadastroPessoaState extends State<CadastroPessoa> {
     _recuperarPessoas();
   }
 
-  _recuperarPessoas({Pessoa pessoa}) async {
+  _recuperarPessoas() async {
     List pessoasRecuperadas = await _db.recuperarPessoas();
     List<Pessoa> listaTemporaria = [];
 
