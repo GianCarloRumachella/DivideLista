@@ -1,4 +1,5 @@
 import 'package:app_divide_lista/helper/DBHelper.dart';
+import 'package:app_divide_lista/model/item.dart';
 import 'package:app_divide_lista/model/pessoa.dart';
 import 'package:flutter/material.dart';
 
@@ -13,6 +14,7 @@ class _CadastroPessoaState extends State<CadastroPessoa> {
   var _db = DBHelper();
 
   List<DataRow> _rowList = [];
+  List<String> _itensList = [];
 
   _exibirCadastro({Pessoa pessoa}) {
     String textoSalvarAtualizar = "";
@@ -83,7 +85,7 @@ class _CadastroPessoaState extends State<CadastroPessoa> {
     _recuperarPessoas();
   }
 
-  _recuperarPessoas() async {
+  _recuperarPessoas({Pessoa pessoa}) async {
     List pessoasRecuperadas = await _db.recuperarPessoas();
     List<Pessoa> listaTemporaria = [];
 
@@ -115,7 +117,7 @@ class _CadastroPessoaState extends State<CadastroPessoa> {
         ),
       );
     }
-//teste
+
     setState(() {});
 
     listaTemporaria = null;
@@ -127,6 +129,19 @@ class _CadastroPessoaState extends State<CadastroPessoa> {
     await _db.removerPessoas(id);
 
     _recuperarPessoas();
+  }
+
+  _dividirLista() async {
+    List itensRecuperados = await _db.recuperarItens();
+    List pessoasRecuperadas = await _db.recuperarPessoas();
+
+    for (var item in itensRecuperados) {
+      Item itenTemp = Item.fromMap(item);
+      for (int i = 0; i < int.parse(itenTemp.quantidade); i++) {
+        _itensList.add(itenTemp.nome);
+        print(_itensList);
+      }
+    }
   }
 
   _dataTable() {
@@ -177,7 +192,8 @@ class _CadastroPessoaState extends State<CadastroPessoa> {
         ),
         RaisedButton(
           onPressed: () {
-            print("Dividindo a lista");
+            //print("Dividindo a lista  $_itensList.length");
+            _dividirLista();
           },
           child: Text("Dividir Lista"),
         ),
