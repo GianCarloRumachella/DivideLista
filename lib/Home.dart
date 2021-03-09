@@ -11,42 +11,44 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.blueGrey[200],
       appBar: AppBar(
+        backgroundColor: Colors.blueGrey[800],
         title: Text("Divide Lista"),
       ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
+      body: Container(
+        padding: EdgeInsets.all(32),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            DrawerHeader(
-              child: Text("Menu Inicial"),
-              decoration: BoxDecoration(
-                color: Colors.blue,
-              ),
-            ),
-            ListTile(
-              title: Text("Cadastrar Itens"),
-              onTap: () {
-                print("abrir cadastro de itens");
+            RaisedButton(
+              color: Colors.blueGrey[400],
+              child: Text("Cadastrar Itens"),
+              onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => CadastroItem()),
+                  MaterialPageRoute(
+                    builder: (context) => CadastroItem(),
+                  ),
                 );
               },
             ),
-            ListTile(
-              title: Text("Cadastrar Pessoas"),
-              onTap: () {
+            RaisedButton(
+              color: Colors.blueGrey[400],
+              child: Text("Cadastrar Pessoas"),
+              onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => CadastroPessoa()),
+                  MaterialPageRoute(
+                    builder: (context) => CadastroPessoa(),
+                  ),
                 );
               },
             ),
           ],
         ),
       ),
-      body: Container(),
     );
   }
 }
