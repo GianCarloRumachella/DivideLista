@@ -1,4 +1,4 @@
-  import 'package:app_divide_lista/model/pessoa.dart';
+import 'package:app_divide_lista/model/pessoa.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:app_divide_lista/model/item.dart';
@@ -6,6 +6,7 @@ import 'package:app_divide_lista/model/item.dart';
 class DBHelper {
   static final String tabelaItens = "Itens";
   static final String tabelaPessoas = "Pessoas";
+  static final String tabelaPessoasItens = "PessoasItens";
 
   // padrão singleton
   static final DBHelper _dbHelper = DBHelper._internal();
@@ -30,12 +31,14 @@ class DBHelper {
   _onCreate(Database db, int version) async {
     String sql = "CREATE TABLE $tabelaItens ("
         " id INTEGER PRIMARY KEY AUTOINCREMENT, nome VARCHAR, quantidade VARCHAR)";
-    String sqlPessoas =
-        "CREATE TABLE $tabelaPessoas ("
+    String sqlPessoas = "CREATE TABLE $tabelaPessoas ("
+        " id INTEGER PRIMARY KEY AUTOINCREMENT, nome VARCHAR, itens VARCHAR)";
+    String sqlPessoasItens = "CREATE TABLE $tabelaPessoasItens ("
         " id INTEGER PRIMARY KEY AUTOINCREMENT, nome VARCHAR, itens VARCHAR)";
 
     await db.execute(sql);
     await db.execute(sqlPessoas);
+    await db.execute(sqlPessoasItens);
   }
 
   inicializarDB() async {
@@ -106,5 +109,10 @@ class DBHelper {
 
     return await bancoDados.update(tabelaPessoas, pessoa.toMap(),
         where: "id = ?", whererArgs: [pessoa.id]);
+  }
+
+  Future<int> removerPessoaItens() async {
+    var bancoDados = await db;
+    return await bancoDados.delete(tabelaPessoasItens);
   }
 }

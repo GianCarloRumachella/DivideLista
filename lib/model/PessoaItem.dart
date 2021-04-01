@@ -1,15 +1,14 @@
-class Pessoa {
+class PessoaItem{
   int id;
   String nome;
   String itens;
 
- 
-  Pessoa({
+  PessoaItem({
     this.nome,
     this.itens,
   });
 
-  Pessoa.fromMap(Map map){
+  PessoaItem.fromMap(Map map){
     this.id = map["id"];
     this.nome = map["nome"];
     this.itens = map["itens"];
@@ -26,5 +25,4 @@ class Pessoa {
 
     return map;
   }
-
 }

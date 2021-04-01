@@ -2,6 +2,7 @@ import 'package:app_divide_lista/helper/DBHelper.dart';
 import 'package:app_divide_lista/model/item.dart';
 import 'package:app_divide_lista/model/pessoa.dart';
 import 'package:flutter/material.dart';
+import 'package:app_divide_lista/model/PessoaItem.dart';
 
 class CadastroPessoa extends StatefulWidget {
   @override
@@ -15,8 +16,11 @@ class _CadastroPessoaState extends State<CadastroPessoa> {
 
   List<DataRow> _rowList = [];
   List<String> _itensList = [];
+  final Map<String, String> itensMap = {};
 
   String itens = "";
+
+  List<Map<String, dynamic>> pessoaItemTemporaria = [];
 
   _exibirCadastro({Pessoa pessoa}) {
     String textoSalvarAtualizar = "";
@@ -49,11 +53,11 @@ class _CadastroPessoaState extends State<CadastroPessoa> {
               ],
             ),
             actions: [
-              FlatButton(
+              ElevatedButton(
                 onPressed: () => Navigator.pop(context),
                 child: Text("Cancelar"),
               ),
-              FlatButton(
+              ElevatedButton(
                 onPressed: () {
                   print("Salvando item " + _nomeController.text);
                   _salvarAtualizarItem(pessoaSelecionada: pessoa);
@@ -135,12 +139,13 @@ class _CadastroPessoaState extends State<CadastroPessoa> {
   _dividirLista() async {
     List itensRecuperados = await _db.recuperarItens();
     List pessoasRecuperadas = await _db.recuperarPessoas();
-    List<Pessoa> pessoasTemporarias = [];
+    List<Pessoa> pessoaTemp = [];
+    
     int index = 0;
 
     for (var pessoa in pessoasRecuperadas) {
       Pessoa pessoas = Pessoa.fromMap(pessoa);
-      pessoasTemporarias.add(pessoas);
+      pessoaTemp.add(pessoas);
     }
 
     _itensList.clear();
@@ -152,24 +157,28 @@ class _CadastroPessoaState extends State<CadastroPessoa> {
           _itensList.add(itemTemp.nome);
         }
       }
-
-      //pega o item e faz um for distribuindo entre as pessoas
-      for (int i = 0; i < _itensList.length; i++) {
-       
-        /* if (index < pessoasRecuperadas.length) {
-          index++;
-           pessoasTemporarias[index].itens += _itensList[i];
-
-        print(
-            "pessoasTemporarias: ${pessoasTemporarias[index].nome} ${pessoasTemporarias[index].itens}");
-        } else {
-          index = 0;
-        } */
-      }
-      //for para salvar o item um por um
+    }
+    print(_itensList.length);
+//CRIAR MAP PARA JUNTAR O NOME E OS ITENS DAQUELA PESSOA -> "NOME", "ITENS"
+//APOS FINALIZAÇÃO DO FOR ADICIONAR TUDO NO MAP
+//SALVAR NA TABELA PESSOAITEM
+//MOSTRAR NA TELA
+//FAZER REFACTOR NO FINAL PARA ACERTAR TUDO REDONDO
+    for (int i = 0; i < pessoaTemp.length; i++) {
+      pessoaItemTemporaria.add({'nome': pessoaTemp[i].nome, "itens": ""});
     }
 
-    print("tamanho da lista : ${_itensList.length}");
+    for (int i = 0; i < _itensList.length; i++) {
+      String aux;
+      aux = pessoaItemTemporaria[index]["itens"] + " ";
+      pessoaItemTemporaria[index].update("itens", (value) => aux + _itensList[i]);
+      if(index < pessoaItemTemporaria.length){
+        index = (index +1) % pessoaItemTemporaria.length;
+        print("index: "+index.toString());
+      }
+    }
+
+    print(pessoaItemTemporaria);
   }
 
   _dataTable() {
@@ -212,13 +221,13 @@ class _CadastroPessoaState extends State<CadastroPessoa> {
         title: Text("Cadastrar Pessoa"),
       ),
       persistentFooterButtons: [
-        RaisedButton(
+        ElevatedButton(
           onPressed: () {
             _exibirCadastro();
           },
           child: Text("Adicionar Pessoa"),
         ),
-        RaisedButton(
+        ElevatedButton(
           onPressed: () {
             //print("Dividindo a lista  $_itensList.length");
             _dividirLista();

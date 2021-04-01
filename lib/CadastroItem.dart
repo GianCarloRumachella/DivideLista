@@ -57,11 +57,11 @@ class _CadastroItemState extends State<CadastroItem> {
               ],
             ),
             actions: [
-              FlatButton(
+              ElevatedButton(
                 onPressed: () => Navigator.pop(context),
                 child: Text("Cancelar"),
               ),
-              FlatButton(
+              ElevatedButton(
                 onPressed: () {
                   print("Salvando item " + _nomeController.text);
                   _salvarAtualizarItem(itemSelecionado: item);
@@ -181,7 +181,7 @@ class _CadastroItemState extends State<CadastroItem> {
         title: Text("Cadastrar Item"),
       ),
       persistentFooterButtons: [
-        RaisedButton(
+        ElevatedButton(
           onPressed: () {
             _exibirCadastro();
           },

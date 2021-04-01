@@ -22,8 +22,8 @@ class _HomeState extends State<Home> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            RaisedButton(
-              color: Colors.blueGrey[400],
+            ElevatedButton(
+              //color: Colors.blueGrey[400],
               child: Text("Cadastrar Itens"),
               onPressed: () {
                 Navigator.push(
@@ -34,8 +34,8 @@ class _HomeState extends State<Home> {
                 );
               },
             ),
-            RaisedButton(
-              color: Colors.blueGrey[400],
+            ElevatedButton(
+              //color: Colors.blueGrey[400],
               child: Text("Cadastrar Pessoas"),
               onPressed: () {
                 Navigator.push(
