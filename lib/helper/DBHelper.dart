@@ -107,9 +107,8 @@ class DBHelper {
 
   Future<int> atualizarPessoas(Pessoa pessoa) async {
     var bancoDados = await db;
-
     return await bancoDados.update(tabelaPessoas, pessoa.toMap(),
-        where: "id = ?", whererArgs: [pessoa.id]);
+        where: "id = ?", whereArgs: [pessoa.id]);
   }
 
   Future<int> removerPessoaItens() async {
