@@ -1,3 +1,4 @@
+import 'package:app_divide_lista/model/PessoaItem.dart';
 import 'package:app_divide_lista/model/pessoa.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
@@ -114,5 +115,28 @@ class DBHelper {
   Future<int> removerPessoaItens() async {
     var bancoDados = await db;
     return await bancoDados.delete(tabelaPessoasItens);
+  }
+
+   Future<int> salvarPessoaItens(PessoaItem pessoaItem) async {
+    var bancoDados = await db;
+    int resultado = await bancoDados.insert(tabelaPessoasItens, pessoaItem.toMap());
+
+    return resultado;
+  }
+
+  Future<int> atualizarPessoasItens(PessoaItem pessoaItem) async {
+    var bancoDados = await db;
+
+    return await bancoDados.update(tabelaPessoasItens, pessoaItem.toMap(),
+        where: "id = ?", whererArgs: [pessoaItem.id]);
+  }
+
+  recuperarPessoasItens() async {
+    var bancoDados = await db;
+
+    String sql = "SELECT * FROM $tabelaPessoasItens ORDER BY nome ASC";
+    List pessoasItens = await bancoDados.rawQuery(sql);
+
+    return pessoasItens;
   }
 }

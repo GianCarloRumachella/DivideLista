@@ -18,9 +18,9 @@ class _CadastroPessoaState extends State<CadastroPessoa> {
   List<String> _itensList = [];
   final Map<String, String> itensMap = {};
 
-  String itens = "";
-
   List<Map<String, dynamic>> pessoaItemTemporaria = [];
+
+  List<String> itens = [];
 
   _exibirCadastro({Pessoa pessoa}) {
     String textoSalvarAtualizar = "";
@@ -75,7 +75,7 @@ class _CadastroPessoaState extends State<CadastroPessoa> {
     String nome = _nomeController.text;
 
     if (pessoaSelecionada == null) {
-      Pessoa pessoa = Pessoa(nome: nome, itens: itens);
+      Pessoa pessoa = Pessoa(nome: nome, itens: itens.join());
       int resultado = await _db.salvarPessoa(pessoa);
       print("resultado salvo:" + resultado.toString());
     } else {
@@ -111,7 +111,6 @@ class _CadastroPessoaState extends State<CadastroPessoa> {
                 _exibirCadastro(pessoa: pessoa);
               },
             ),
-            DataCell(Text(pessoa.itens)),
             DataCell(
               Icon(Icons.delete),
               onTap: () {
@@ -136,11 +135,11 @@ class _CadastroPessoaState extends State<CadastroPessoa> {
     _recuperarPessoas();
   }
 
-  _dividirLista() async {
+  /* _dividirLista() async {
     List itensRecuperados = await _db.recuperarItens();
     List pessoasRecuperadas = await _db.recuperarPessoas();
     List<Pessoa> pessoaTemp = [];
-    
+
     int index = 0;
 
     for (var pessoa in pessoasRecuperadas) {
@@ -171,15 +170,21 @@ class _CadastroPessoaState extends State<CadastroPessoa> {
     for (int i = 0; i < _itensList.length; i++) {
       String aux;
       aux = pessoaItemTemporaria[index]["itens"] + " ";
-      pessoaItemTemporaria[index].update("itens", (value) => aux + _itensList[i]);
-      if(index < pessoaItemTemporaria.length){
-        index = (index +1) % pessoaItemTemporaria.length;
-        print("index: "+index.toString());
+      pessoaItemTemporaria[index]
+          .update("itens", (value) => aux + _itensList[i]);
+      if (index < pessoaItemTemporaria.length) {
+        index = (index + 1) % pessoaItemTemporaria.length;
+        //print("index: " + index.toString());
       }
     }
 
     print(pessoaItemTemporaria);
-  }
+    //salvando no banco de dados
+    for (int i = 0; i < pessoaItemTemporaria.length; i++) {
+      Pessoa pessoaTemp = Pessoa.fromMap(pessoaItemTemporaria[i]);
+      _salvarAtualizarItem(pessoaSelecionada: pessoaTemp);
+    }
+  } */
 
   _dataTable() {
     return DataTable(
@@ -187,12 +192,6 @@ class _CadastroPessoaState extends State<CadastroPessoa> {
         DataColumn(
           label: Text(
             'Pessoa',
-            style: TextStyle(fontStyle: FontStyle.italic),
-          ),
-        ),
-        DataColumn(
-          label: Text(
-            'Itens',
             style: TextStyle(fontStyle: FontStyle.italic),
           ),
         ),
@@ -227,13 +226,13 @@ class _CadastroPessoaState extends State<CadastroPessoa> {
           },
           child: Text("Adicionar Pessoa"),
         ),
-        ElevatedButton(
+       /*  ElevatedButton(
           onPressed: () {
             //print("Dividindo a lista  $_itensList.length");
             _dividirLista();
           },
           child: Text("Dividir Lista"),
-        ),
+        ), */
       ],
       body: SingleChildScrollView(
         child: _dataTable(),

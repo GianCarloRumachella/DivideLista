@@ -1,5 +1,6 @@
 import 'package:app_divide_lista/CadastroItem.dart';
 import 'package:app_divide_lista/CadastroPessoa.dart';
+import 'package:app_divide_lista/DivisaoItens.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -42,6 +43,18 @@ class _HomeState extends State<Home> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => CadastroPessoa(),
+                  ),
+                );
+              },
+            ),
+            ElevatedButton(
+              //color: Colors.blueGrey[400],
+              child: Text("Dividir Itens"),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => DivisaoItens(),
                   ),
                 );
               },
