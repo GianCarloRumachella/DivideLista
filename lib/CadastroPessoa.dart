@@ -1,8 +1,7 @@
 import 'package:app_divide_lista/helper/DBHelper.dart';
-import 'package:app_divide_lista/model/item.dart';
 import 'package:app_divide_lista/model/pessoa.dart';
 import 'package:flutter/material.dart';
-import 'package:app_divide_lista/model/PessoaItem.dart';
+
 
 class CadastroPessoa extends StatefulWidget {
   @override
@@ -15,7 +14,7 @@ class _CadastroPessoaState extends State<CadastroPessoa> {
   var _db = DBHelper();
 
   List<DataRow> _rowList = [];
-  List<String> _itensList = [];
+
   final Map<String, String> itensMap = {};
 
   List<Map<String, dynamic>> pessoaItemTemporaria = [];
@@ -111,6 +110,7 @@ class _CadastroPessoaState extends State<CadastroPessoa> {
                 _exibirCadastro(pessoa: pessoa);
               },
             ),
+            DataCell(Text(""), onTap: () {}),
             DataCell(
               Icon(Icons.delete),
               onTap: () {
@@ -135,63 +135,18 @@ class _CadastroPessoaState extends State<CadastroPessoa> {
     _recuperarPessoas();
   }
 
-  /* _dividirLista() async {
-    List itensRecuperados = await _db.recuperarItens();
-    List pessoasRecuperadas = await _db.recuperarPessoas();
-    List<Pessoa> pessoaTemp = [];
-
-    int index = 0;
-
-    for (var pessoa in pessoasRecuperadas) {
-      Pessoa pessoas = Pessoa.fromMap(pessoa);
-      pessoaTemp.add(pessoas);
-    }
-
-    _itensList.clear();
-
-    for (var item in itensRecuperados) {
-      Item itemTemp = Item.fromMap(item);
-      if (int.parse(itemTemp.quantidade) != 0) {
-        for (int i = 0; i < int.parse(itemTemp.quantidade); i++) {
-          _itensList.add(itemTemp.nome);
-        }
-      }
-    }
-    print(_itensList.length);
-//CRIAR MAP PARA JUNTAR O NOME E OS ITENS DAQUELA PESSOA -> "NOME", "ITENS"
-//APOS FINALIZAÇÃO DO FOR ADICIONAR TUDO NO MAP
-//SALVAR NA TABELA PESSOAITEM
-//MOSTRAR NA TELA
-//FAZER REFACTOR NO FINAL PARA ACERTAR TUDO REDONDO
-    for (int i = 0; i < pessoaTemp.length; i++) {
-      pessoaItemTemporaria.add({'nome': pessoaTemp[i].nome, "itens": ""});
-    }
-
-    for (int i = 0; i < _itensList.length; i++) {
-      String aux;
-      aux = pessoaItemTemporaria[index]["itens"] + " ";
-      pessoaItemTemporaria[index]
-          .update("itens", (value) => aux + _itensList[i]);
-      if (index < pessoaItemTemporaria.length) {
-        index = (index + 1) % pessoaItemTemporaria.length;
-        //print("index: " + index.toString());
-      }
-    }
-
-    print(pessoaItemTemporaria);
-    //salvando no banco de dados
-    for (int i = 0; i < pessoaItemTemporaria.length; i++) {
-      Pessoa pessoaTemp = Pessoa.fromMap(pessoaItemTemporaria[i]);
-      _salvarAtualizarItem(pessoaSelecionada: pessoaTemp);
-    }
-  } */
-
   _dataTable() {
     return DataTable(
       columns: <DataColumn>[
         DataColumn(
           label: Text(
             'Pessoa',
+            style: TextStyle(fontStyle: FontStyle.italic),
+          ),
+        ),
+        DataColumn(
+          label: Text(
+            'Contato',
             style: TextStyle(fontStyle: FontStyle.italic),
           ),
         ),
@@ -226,12 +181,13 @@ class _CadastroPessoaState extends State<CadastroPessoa> {
           },
           child: Text("Adicionar Pessoa"),
         ),
-       /*  ElevatedButton(
-          onPressed: () {
+        /*  ElevatedButton(
+          onPressed: () async {
             //print("Dividindo a lista  $_itensList.length");
-            _dividirLista();
+            final PhoneContact contact = await FlutterContactPicker.pickPhoneContact();
+            print(contact);
           },
-          child: Text("Dividir Lista"),
+          child: Text("Pegar Contato"),
         ), */
       ],
       body: SingleChildScrollView(

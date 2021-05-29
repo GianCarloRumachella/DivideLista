@@ -3,6 +3,8 @@ import 'package:app_divide_lista/model/item.dart';
 import 'package:app_divide_lista/model/pessoa.dart';
 import 'package:flutter/material.dart';
 import 'package:app_divide_lista/model/PessoaItem.dart';
+import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
+
 
 class DivisaoItens extends StatefulWidget {
   @override
@@ -19,6 +21,8 @@ class _DivisaoItensState extends State<DivisaoItens> {
   List<Map<String, dynamic>> pessoaItemTemporaria = [];
 
   List<String> itens = [];
+
+  String base64Image = 'assets/icon-whats.png';
 
   _salvarAtualizarPessoaItem(String nome, String itens) async {
     PessoaItem pessoa = PessoaItem(nome: nome, itens: itens);
@@ -59,6 +63,13 @@ class _DivisaoItensState extends State<DivisaoItens> {
             ),
             DataCell(
               Text(pessoa.itens),
+            ),
+            DataCell(
+              Icon(Icons.share),
+              onTap: () {
+                FlutterOpenWhatsapp.sendSingleMessage("+5511941139885",
+                    "Olá essa mensagem é apenas um teste, lista compartilhada ${pessoa.nome}: ${pessoa.itens}");
+              },
             ),
           ],
         ),
@@ -124,7 +135,7 @@ class _DivisaoItensState extends State<DivisaoItens> {
       }
     }
 
-    await _db.removerPessoaItens();
+    _apagarLista();
 
     print(pessoaItemTemporaria);
     //salvando no banco de dados
@@ -132,6 +143,11 @@ class _DivisaoItensState extends State<DivisaoItens> {
       Pessoa pessoaTemp = Pessoa.fromMap(pessoaItemTemporaria[i]);
       _salvarAtualizarPessoaItem(pessoaTemp.nome, pessoaTemp.itens);
     }
+  }
+
+  _apagarLista() async {
+    await _db.removerPessoaItens();
+    _recuperarPessoasItens();
   }
 
   _dataTable() {
@@ -146,6 +162,12 @@ class _DivisaoItensState extends State<DivisaoItens> {
         DataColumn(
           label: Text(
             'Itens',
+            style: TextStyle(fontStyle: FontStyle.italic),
+          ),
+        ),
+        DataColumn(
+          label: Text(
+            'Share',
             style: TextStyle(fontStyle: FontStyle.italic),
           ),
         ),
@@ -169,11 +191,18 @@ class _DivisaoItensState extends State<DivisaoItens> {
       persistentFooterButtons: [
         ElevatedButton(
           onPressed: () {
-            print("Dividindo a lista");
+            // print("Dividindo a lista");
             _dividirLista();
           },
           child: Text("Dividir Lista"),
         ),
+        ElevatedButton(
+          onPressed: () async {
+            // print("Dividindo a lista");
+            _apagarLista();
+          },
+          child: Text("Apagar Lista"),
+        )
       ],
       body: _dataTable(),
     );
