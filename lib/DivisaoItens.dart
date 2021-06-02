@@ -24,8 +24,8 @@ class _DivisaoItensState extends State<DivisaoItens> {
 
   String base64Image = 'assets/icon-whats.png';
 
-  _salvarAtualizarPessoaItem(String nome, String itens) async {
-    PessoaItem pessoa = PessoaItem(nome: nome, itens: itens);
+  _salvarAtualizarPessoaItem(String nome, String itens, String telefone) async {
+    PessoaItem pessoa = PessoaItem(nome: nome, itens: itens, telefone: telefone);
     int resultado = await _db.salvarPessoaItens(pessoa);
     print("resultado salvo:" + resultado.toString());
 
@@ -67,7 +67,7 @@ class _DivisaoItensState extends State<DivisaoItens> {
             DataCell(
               Icon(Icons.share),
               onTap: () {
-                FlutterOpenWhatsapp.sendSingleMessage("+5511941139885",
+                FlutterOpenWhatsapp.sendSingleMessage("+55${pessoa.telefone}",
                     "Olá essa mensagem é apenas um teste, lista compartilhada ${pessoa.nome}: ${pessoa.itens}");
               },
             ),
@@ -121,7 +121,7 @@ class _DivisaoItensState extends State<DivisaoItens> {
 //MOSTRAR NA TELA
 //FAZER REFACTOR NO FINAL PARA ACERTAR TUDO REDONDO
     for (int i = 0; i < pessoaTemp.length; i++) {
-      pessoaItemTemporaria.add({'nome': pessoaTemp[i].nome, "itens": ""});
+      pessoaItemTemporaria.add({'nome': pessoaTemp[i].nome, "itens": "", "telefone": pessoaTemp[i].telefone});
     }
 
     for (int i = 0; i < _itensList.length; i++) {
@@ -141,7 +141,7 @@ class _DivisaoItensState extends State<DivisaoItens> {
     //salvando no banco de dados
     for (int i = 0; i < pessoaItemTemporaria.length; i++) {
       Pessoa pessoaTemp = Pessoa.fromMap(pessoaItemTemporaria[i]);
-      _salvarAtualizarPessoaItem(pessoaTemp.nome, pessoaTemp.itens);
+      _salvarAtualizarPessoaItem(pessoaTemp.nome, pessoaTemp.itens, pessoaTemp.telefone);
     }
   }
 

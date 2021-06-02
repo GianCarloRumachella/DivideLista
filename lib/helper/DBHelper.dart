@@ -33,9 +33,9 @@ class DBHelper {
     String sql = "CREATE TABLE $tabelaItens ("
         " id INTEGER PRIMARY KEY AUTOINCREMENT, nome VARCHAR, quantidade VARCHAR)";
     String sqlPessoas = "CREATE TABLE $tabelaPessoas ("
-        " id INTEGER PRIMARY KEY AUTOINCREMENT, nome VARCHAR, itens VARCHAR)";
+        " id INTEGER PRIMARY KEY AUTOINCREMENT, nome VARCHAR, itens VARCHAR, telefone VARCHAR)";
     String sqlPessoasItens = "CREATE TABLE $tabelaPessoasItens ("
-        " id INTEGER PRIMARY KEY AUTOINCREMENT, nome VARCHAR, itens VARCHAR)";
+        " id INTEGER PRIMARY KEY AUTOINCREMENT, nome VARCHAR, itens VARCHAR, telefone VARCHAR)";
 
     await db.execute(sql);
     await db.execute(sqlPessoas);

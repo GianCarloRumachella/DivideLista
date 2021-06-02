@@ -2,7 +2,6 @@ import 'package:app_divide_lista/helper/DBHelper.dart';
 import 'package:app_divide_lista/model/pessoa.dart';
 import 'package:flutter/material.dart';
 
-
 class CadastroPessoa extends StatefulWidget {
   @override
   _CadastroPessoaState createState() => _CadastroPessoaState();
@@ -10,6 +9,7 @@ class CadastroPessoa extends StatefulWidget {
 
 class _CadastroPessoaState extends State<CadastroPessoa> {
   TextEditingController _nomeController = TextEditingController();
+  TextEditingController _telefoneController = TextEditingController();
 
   var _db = DBHelper();
 
@@ -49,6 +49,16 @@ class _CadastroPessoaState extends State<CadastroPessoa> {
                     hintText: "Digite o nome da pessoa",
                   ),
                 ),
+                TextField(
+                  controller: _telefoneController,
+                  keyboardType: TextInputType.number,
+                  textInputAction: TextInputAction.next,
+                  autofocus: false,
+                  decoration: InputDecoration(
+                    labelText: "Telefone da pessoa",
+                    hintText: "Digite o telefone da pessoa",
+                  ),
+                ),
               ],
             ),
             actions: [
@@ -72,19 +82,23 @@ class _CadastroPessoaState extends State<CadastroPessoa> {
 
   _salvarAtualizarItem({Pessoa pessoaSelecionada}) async {
     String nome = _nomeController.text;
+    String telefone = _telefoneController.text;
 
     if (pessoaSelecionada == null) {
-      Pessoa pessoa = Pessoa(nome: nome, itens: itens.join());
+      Pessoa pessoa =
+          Pessoa(nome: nome, itens: itens.join(), telefone: telefone);
       int resultado = await _db.salvarPessoa(pessoa);
       print("resultado salvo:" + resultado.toString());
     } else {
       pessoaSelecionada.nome = nome;
       pessoaSelecionada.itens = pessoaSelecionada.itens;
+      pessoaSelecionada.telefone = telefone;
       int resultado = await _db.atualizarPessoas(pessoaSelecionada);
       print("resultado atulizado:" + resultado.toString());
     }
 
     _nomeController.clear();
+    _telefoneController.clear();
 
     _recuperarPessoas();
   }
@@ -110,7 +124,9 @@ class _CadastroPessoaState extends State<CadastroPessoa> {
                 _exibirCadastro(pessoa: pessoa);
               },
             ),
-            DataCell(Text(""), onTap: () {}),
+            DataCell(
+              Text(pessoa.telefone),
+            ),
             DataCell(
               Icon(Icons.delete),
               onTap: () {
