@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:app_divide_lista/model/PessoaItem.dart';
 import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
 
-
 class DivisaoItens extends StatefulWidget {
   @override
   _DivisaoItensState createState() => _DivisaoItensState();
@@ -25,9 +24,10 @@ class _DivisaoItensState extends State<DivisaoItens> {
   String base64Image = 'assets/icon-whats.png';
 
   _salvarAtualizarPessoaItem(String nome, String itens, String telefone) async {
-    PessoaItem pessoa = PessoaItem(nome: nome, itens: itens, telefone: telefone);
+    PessoaItem pessoa =
+        PessoaItem(nome: nome, itens: itens, telefone: telefone);
     int resultado = await _db.salvarPessoaItens(pessoa);
-    print("resultado salvo:" + resultado.toString());
+    //print("resultado salvo:" + resultado.toString());
 
     /* if (pessoaSelecionada == null) {
       PessoaItem pessoa = PessoaItem(nome: nome, itens: itens.join());
@@ -68,7 +68,7 @@ class _DivisaoItensState extends State<DivisaoItens> {
               Icon(Icons.share),
               onTap: () {
                 FlutterOpenWhatsapp.sendSingleMessage("+55${pessoa.telefone}",
-                    "Olá essa mensagem é apenas um teste, lista compartilhada ${pessoa.nome}: ${pessoa.itens}");
+                    "Olá ${pessoa.nome} segue sua lista de itens : ${pessoa.itens}");
               },
             ),
           ],
@@ -80,7 +80,7 @@ class _DivisaoItensState extends State<DivisaoItens> {
 
     listaTemporaria = null;
 
-    print("Itens anotados: " + pessoasItensRecuperadas.toString());
+    //print("Itens anotados: " + pessoasItensRecuperadas.toString());
   }
 
   _removerPessoas(int id) async {
@@ -91,7 +91,8 @@ class _DivisaoItensState extends State<DivisaoItens> {
 
   _dividirLista() async {
     List itensRecuperados = await _db.recuperarItens();
-    List pessoasRecuperadas = await _db.recuperarPessoas();
+    List pessoasRecuperadas = await _db.recuperarPessoas(false);
+
     List<Pessoa> pessoaTemp = [];
 
     int index = 0;
@@ -121,7 +122,11 @@ class _DivisaoItensState extends State<DivisaoItens> {
 //MOSTRAR NA TELA
 //FAZER REFACTOR NO FINAL PARA ACERTAR TUDO REDONDO
     for (int i = 0; i < pessoaTemp.length; i++) {
-      pessoaItemTemporaria.add({'nome': pessoaTemp[i].nome, "itens": "", "telefone": pessoaTemp[i].telefone});
+      pessoaItemTemporaria.add({
+        'nome': pessoaTemp[i].nome,
+        "itens": "",
+        "telefone": pessoaTemp[i].telefone
+      });
     }
 
     for (int i = 0; i < _itensList.length; i++) {
@@ -137,11 +142,12 @@ class _DivisaoItensState extends State<DivisaoItens> {
 
     _apagarLista();
 
-    print(pessoaItemTemporaria);
+    // print(pessoaItemTemporaria);
     //salvando no banco de dados
     for (int i = 0; i < pessoaItemTemporaria.length; i++) {
       Pessoa pessoaTemp = Pessoa.fromMap(pessoaItemTemporaria[i]);
-      _salvarAtualizarPessoaItem(pessoaTemp.nome, pessoaTemp.itens, pessoaTemp.telefone);
+      _salvarAtualizarPessoaItem(
+          pessoaTemp.nome, pessoaTemp.itens, pessoaTemp.telefone);
     }
   }
 

@@ -89,13 +89,20 @@ class DBHelper {
     return resultado;
   }
 
-  recuperarPessoas() async {
+  recuperarPessoas(bool ascOrder) async {
     var bancoDados = await db;
 
-    String sql = "SELECT * FROM $tabelaPessoas ORDER BY nome ASC";
-    List pessoas = await bancoDados.rawQuery(sql);
+    if (ascOrder) {
+      String sql = "SELECT * FROM $tabelaPessoas ORDER BY nome ASC";
+      List pessoas = await bancoDados.rawQuery(sql);
+      
+      return pessoas;
+    } else {
+      String sql = "SELECT * FROM $tabelaPessoas ORDER BY telefone ASC";
+      List pessoas = await bancoDados.rawQuery(sql);
 
-    return pessoas;
+      return pessoas;
+    }
   }
 
   Future<int> removerPessoas(int id) async {
@@ -116,9 +123,10 @@ class DBHelper {
     return await bancoDados.delete(tabelaPessoasItens);
   }
 
-   Future<int> salvarPessoaItens(PessoaItem pessoaItem) async {
+  Future<int> salvarPessoaItens(PessoaItem pessoaItem) async {
     var bancoDados = await db;
-    int resultado = await bancoDados.insert(tabelaPessoasItens, pessoaItem.toMap());
+    int resultado =
+        await bancoDados.insert(tabelaPessoasItens, pessoaItem.toMap());
 
     return resultado;
   }
