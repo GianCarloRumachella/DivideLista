@@ -67,7 +67,7 @@ class _DivisaoItensState extends State<DivisaoItens> {
             DataCell(
               Icon(Icons.share),
               onTap: () {
-                FlutterOpenWhatsapp.sendSingleMessage("+55${pessoa.telefone}",
+                FlutterOpenWhatsapp.sendSingleMessage("${pessoa.telefone}",
                     "Olá ${pessoa.nome} segue sua lista de itens : ${pessoa.itens}");
               },
             ),

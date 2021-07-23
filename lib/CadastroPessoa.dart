@@ -1,5 +1,6 @@
 import 'package:app_divide_lista/helper/DBHelper.dart';
 import 'package:app_divide_lista/model/pessoa.dart';
+import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 
 class CadastroPessoa extends StatefulWidget {
@@ -20,6 +21,21 @@ class _CadastroPessoaState extends State<CadastroPessoa> {
   List<Map<String, dynamic>> pessoaItemTemporaria = [];
 
   List<String> itens = [];
+  Contact _contact;
+
+  Future<void> _pegaContato() async {
+    try {
+      final Contact contato = await ContactsService.openDeviceContactPicker();
+      setState(() {
+        _contact = contato;
+      });
+      _nomeController.text = _contact.displayName;
+      _telefoneController.text = _contact.phones.first.value;
+      print("${_contact.displayName}: ${_contact.phones.first.value}");
+    } catch (e) {
+      print(e.toString());
+    }
+  }
 
   _exibirCadastro({Pessoa pessoa}) {
     String textoSalvarAtualizar = "";
@@ -39,6 +55,10 @@ class _CadastroPessoaState extends State<CadastroPessoa> {
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
+                ElevatedButton(
+                  child: Text("Selecione um contato"),
+                  onPressed: _pegaContato,
+                ),
                 TextField(
                   controller: _nomeController,
                   keyboardType: TextInputType.text,
@@ -192,7 +212,8 @@ class _CadastroPessoaState extends State<CadastroPessoa> {
           style: ElevatedButton.styleFrom(
             primary: Colors.blueGrey[800],
             elevation: 3,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(32))),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(32))),
           ),
           onPressed: () {
             _exibirCadastro();
