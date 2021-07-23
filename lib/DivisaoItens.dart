@@ -191,11 +191,14 @@ class _DivisaoItensState extends State<DivisaoItens> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Divisão de Itens"),
-      ),
       persistentFooterButtons: [
         ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            primary: Colors.blueGrey[800],
+            elevation: 3,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(32))),
+          ),
           onPressed: () {
             // print("Dividindo a lista");
             _dividirLista();
@@ -203,6 +206,12 @@ class _DivisaoItensState extends State<DivisaoItens> {
           child: Text("Dividir Lista"),
         ),
         ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            primary: Colors.blueGrey[800],
+            elevation: 3,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(32))),
+          ),
           onPressed: () async {
             // print("Dividindo a lista");
             _apagarLista();

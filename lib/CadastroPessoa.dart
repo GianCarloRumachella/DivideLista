@@ -187,24 +187,18 @@ class _CadastroPessoaState extends State<CadastroPessoa> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Cadastrar Pessoa"),
-      ),
       persistentFooterButtons: [
         ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            primary: Colors.blueGrey[800],
+            elevation: 3,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(32))),
+          ),
           onPressed: () {
             _exibirCadastro();
           },
-          child: Text("Adicionar Pessoa"),
+          child: Text("+ Pessoa"),
         ),
-        /*  ElevatedButton(
-          onPressed: () async {
-            //print("Dividindo a lista  $_itensList.length");
-            final PhoneContact contact = await FlutterContactPicker.pickPhoneContact();
-            print(contact);
-          },
-          child: Text("Pegar Contato"),
-        ), */
       ],
       body: SingleChildScrollView(
         child: _dataTable(),

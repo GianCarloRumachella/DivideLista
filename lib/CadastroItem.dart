@@ -177,15 +177,18 @@ class _CadastroItemState extends State<CadastroItem> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Cadastrar Item"),
-      ),
       persistentFooterButtons: [
         ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            primary: Colors.blueGrey[800],
+            elevation: 3,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(32))),
+          ),
           onPressed: () {
             _exibirCadastro();
           },
-          child: Text("AdicionarItem"),
+          child: Text("+ Item"),
         ),
       ],
       body: SingleChildScrollView(

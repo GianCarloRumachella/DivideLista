@@ -8,59 +8,50 @@ class Home extends StatefulWidget {
   _HomeState createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
+  TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(vsync: this, length: 3);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blueGrey[200],
       appBar: AppBar(
+        elevation: 0,
         backgroundColor: Colors.blueGrey[800],
         title: Text("Divide Lista"),
-      ),
-      body: Container(
-        padding: EdgeInsets.all(32),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(
-              //color: Colors.blueGrey[400],
-              child: Text("Cadastrar Itens"),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => CadastroItem(),
-                  ),
-                );
-              },
+        bottom: TabBar(
+          indicatorWeight: 4,
+          labelStyle: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.bold,
+          ),
+          controller: _tabController,
+          indicatorColor: Colors.white,
+          tabs: [
+            Tab(
+              text: "Pessoas",
             ),
-            ElevatedButton(
-              //color: Colors.blueGrey[400],
-              child: Text("Cadastrar Pessoas"),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => CadastroPessoa(),
-                  ),
-                );
-              },
+            Tab(
+              text: "Itens",
             ),
-            ElevatedButton(
-              //color: Colors.blueGrey[400],
-              child: Text("Dividir Itens"),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => DivisaoItens(),
-                  ),
-                );
-              },
+            Tab(
+              text: "Dividir Lista",
             ),
           ],
         ),
+      ),
+      body: TabBarView(
+        controller: _tabController,
+        children: [
+          CadastroPessoa(),
+          CadastroItem(),
+          DivisaoItens(),
+        ],
       ),
     );
   }
