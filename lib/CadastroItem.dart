@@ -60,6 +60,15 @@ class _CadastroItemState extends State<CadastroItem> {
               ElevatedButton(
                 onPressed: () => Navigator.pop(context),
                 child: Text("Cancelar"),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.blueGrey[800],
+                  elevation: 3,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(32),
+                    ),
+                  ),
+                ),
               ),
               ElevatedButton(
                 onPressed: () {
@@ -69,6 +78,15 @@ class _CadastroItemState extends State<CadastroItem> {
                   Navigator.pop(context);
                 },
                 child: Text("Salvar"),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.blueGrey[800],
+                  elevation: 3,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(32),
+                    ),
+                  ),
+                ),
               ),
             ],
           );

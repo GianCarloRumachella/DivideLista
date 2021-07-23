@@ -30,7 +30,12 @@ class _CadastroPessoaState extends State<CadastroPessoa> {
         _contact = contato;
       });
       _nomeController.text = _contact.displayName;
-      _telefoneController.text = _contact.phones.first.value;
+      if (!_contact.phones.first.value.contains("+55")) {
+        _telefoneController.text = "+55" + _contact.phones.first.value;
+      } else {
+        _telefoneController.text = _contact.phones.first.value;
+      }
+
       print("${_contact.displayName}: ${_contact.phones.first.value}");
     } catch (e) {
       print(e.toString());
@@ -44,6 +49,7 @@ class _CadastroPessoaState extends State<CadastroPessoa> {
       textoSalvarAtualizar = "Salvar";
     } else {
       _nomeController.text = pessoa.nome;
+      _telefoneController.text = pessoa.telefone;
       textoSalvarAtualizar = "Atualizar";
     }
 
@@ -55,10 +61,6 @@ class _CadastroPessoaState extends State<CadastroPessoa> {
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                ElevatedButton(
-                  child: Text("Selecione um contato"),
-                  onPressed: _pegaContato,
-                ),
                 TextField(
                   controller: _nomeController,
                   keyboardType: TextInputType.text,
@@ -79,21 +81,54 @@ class _CadastroPessoaState extends State<CadastroPessoa> {
                     hintText: "Digite o telefone da pessoa",
                   ),
                 ),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: ElevatedButton(
+                    child: Text("Selecione um contato"),
+                    onPressed: _pegaContato,
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.blueGrey[800],
+                      elevation: 3,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(32),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
             actions: [
               ElevatedButton(
                 onPressed: () => Navigator.pop(context),
                 child: Text("Cancelar"),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.blueGrey[800],
+                  elevation: 3,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(32),
+                    ),
+                  ),
+                ),
               ),
               ElevatedButton(
                 onPressed: () {
                   print("Salvando item " + _nomeController.text);
                   _salvarAtualizarItem(pessoaSelecionada: pessoa);
-
                   Navigator.pop(context);
                 },
                 child: Text("Salvar"),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.blueGrey[800],
+                  elevation: 3,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(32),
+                    ),
+                  ),
+                ),
               ),
             ],
           );
