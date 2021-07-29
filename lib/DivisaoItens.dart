@@ -83,12 +83,6 @@ class _DivisaoItensState extends State<DivisaoItens> {
     //print("Itens anotados: " + pessoasItensRecuperadas.toString());
   }
 
-  _removerPessoas(int id) async {
-    await _db.removerPessoas(id);
-
-    _recuperarPessoasItens();
-  }
-
   _dividirLista() async {
     List itensRecuperados = await _db.recuperarItens();
     List pessoasRecuperadas = await _db.recuperarPessoas(false);
@@ -115,12 +109,6 @@ class _DivisaoItensState extends State<DivisaoItens> {
 
     pessoaItemTemporaria.clear();
 
-    //print(_itensList.length);
-//CRIAR MAP PARA JUNTAR O NOME E OS ITENS DAQUELA PESSOA -> "NOME", "ITENS" ok
-//APOS FINALIZAÇÃO DO FOR ADICIONAR TUDO NO MAP
-//SALVAR NA TABELA PESSOAITEM
-//MOSTRAR NA TELA
-//FAZER REFACTOR NO FINAL PARA ACERTAR TUDO REDONDO
     for (int i = 0; i < pessoaTemp.length; i++) {
       pessoaItemTemporaria.add({
         'nome': pessoaTemp[i].nome,
@@ -182,6 +170,8 @@ class _DivisaoItensState extends State<DivisaoItens> {
     );
   }
 
+  _exportarLista() {}
+
   @override
   void initState() {
     super.initState();
@@ -218,7 +208,17 @@ class _DivisaoItensState extends State<DivisaoItens> {
             _apagarLista();
           },
           child: Icon(Icons.delete_sweep_sharp) /* Text("Apagar Lista") */,
-        )
+        ),
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            primary: Colors.blueGrey[800],
+            elevation: 3,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(32))),
+          ),
+          onPressed: () async {},
+          child: Icon(Icons.share_rounded) /* Text("Apagar Lista") */,
+        ),
       ],
       body: Container(
         padding: EdgeInsets.all(16),
