@@ -253,11 +253,14 @@ class _CadastroPessoaState extends State<CadastroPessoa> {
           onPressed: () {
             _exibirCadastro();
           },
-          child: Text("+ Pessoa"),
+          child: Icon(Icons.person_add_sharp) /* Text("+ Pessoa") */,
         ),
       ],
-      body: SingleChildScrollView(
-        child: _dataTable(),
+      body: Container(
+        padding: EdgeInsets.all(16),
+        child: SingleChildScrollView(
+          child: _dataTable(),
+        ),
       ),
     );
   }

@@ -35,11 +35,11 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     PermissionStatus permissao = await Permission.contacts.status;
     if (permissao != PermissionStatus.granted &&
         permissao != PermissionStatus.permanentlyDenied) {
-          PermissionStatus permissionStatus = await Permission.contacts.request();
-          return permissionStatus;
-        }else {
-          return permissao;
-        }
+      PermissionStatus permissionStatus = await Permission.contacts.request();
+      return permissionStatus;
+    } else {
+      return permissao;
+    }
   }
 
   void _gerenciarPermissaoInvalida(PermissionStatus permissionStatus) {
@@ -64,22 +64,25 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
         backgroundColor: Colors.blueGrey[800],
         title: Text("Divide Lista"),
         bottom: TabBar(
-          indicatorWeight: 4,
+          indicatorWeight: 8,
           labelStyle: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
           ),
           controller: _tabController,
-          indicatorColor: Colors.white,
+          indicatorColor: Colors.green,
           tabs: [
             Tab(
               text: "Pessoas",
+              icon: Icon(Icons.person_sharp),
             ),
             Tab(
               text: "Itens",
+              icon: Icon(Icons.emoji_objects),
             ),
             Tab(
               text: "Dividir Lista",
+              icon: Icon(Icons.list_alt),
             ),
           ],
         ),

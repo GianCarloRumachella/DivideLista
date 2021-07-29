@@ -193,18 +193,19 @@ class _DivisaoItensState extends State<DivisaoItens> {
     return Scaffold(
       persistentFooterButtons: [
         ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            primary: Colors.blueGrey[800],
-            elevation: 3,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(32))),
-          ),
-          onPressed: () {
-            // print("Dividindo a lista");
-            _dividirLista();
-          },
-          child: Text("Dividir Lista"),
-        ),
+            style: ElevatedButton.styleFrom(
+              primary: Colors.blueGrey[800],
+              elevation: 3,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(32))),
+            ),
+            onPressed: () {
+              // print("Dividindo a lista");
+              _dividirLista();
+            },
+            child: Icon(Icons
+                .format_list_numbered_rtl_sharp) /* Text("Dividir Lista") */
+            ),
         ElevatedButton(
           style: ElevatedButton.styleFrom(
             primary: Colors.blueGrey[800],
@@ -216,10 +217,13 @@ class _DivisaoItensState extends State<DivisaoItens> {
             // print("Dividindo a lista");
             _apagarLista();
           },
-          child: Text("Apagar Lista"),
+          child: Icon(Icons.delete_sweep_sharp) /* Text("Apagar Lista") */,
         )
       ],
-      body: _dataTable(),
+      body: Container(
+        padding: EdgeInsets.all(16),
+        child: _dataTable(),
+      ),
     );
   }
 }

@@ -206,11 +206,14 @@ class _CadastroItemState extends State<CadastroItem> {
           onPressed: () {
             _exibirCadastro();
           },
-          child: Text("+ Item"),
+          child: Icon(Icons.note_add), /* Text("+ Item") */
         ),
       ],
-      body: SingleChildScrollView(
-        child: _dataTable(),
+      body: Container(
+        padding: EdgeInsets.all(16),
+        child: SingleChildScrollView(
+          child: _dataTable(),
+        ),
       ),
     );
   }
