@@ -21,7 +21,7 @@ class _DivisaoItensState extends State<DivisaoItens> {
 
   List<String> itens = [];
 
-  String base64Image = 'assets/icon-whats.png';
+  List<PessoaItem> listaPessoasItensCompleta = [];
 
   _salvarAtualizarPessoaItem(String nome, String itens, String telefone) async {
     PessoaItem pessoa =
@@ -76,6 +76,7 @@ class _DivisaoItensState extends State<DivisaoItens> {
       );
     }
 
+    listaPessoasItensCompleta = listaTemporaria;
     setState(() {});
 
     listaTemporaria = null;
@@ -170,7 +171,7 @@ class _DivisaoItensState extends State<DivisaoItens> {
     );
   }
 
-  _exportarLista() {}
+
 
   @override
   void initState() {
@@ -209,16 +210,7 @@ class _DivisaoItensState extends State<DivisaoItens> {
           },
           child: Icon(Icons.delete_sweep_sharp) /* Text("Apagar Lista") */,
         ),
-        ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            primary: Colors.blueGrey[800],
-            elevation: 3,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(32))),
-          ),
-          onPressed: () async {},
-          child: Icon(Icons.share_rounded) /* Text("Apagar Lista") */,
-        ),
+       
       ],
       body: Container(
         padding: EdgeInsets.all(16),

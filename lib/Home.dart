@@ -23,6 +23,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     PermissionStatus permissionStatus = await _getPermisaoContatos();
     if (permissionStatus == PermissionStatus.granted) {
       final snackBar = SnackBar(
+        duration: Duration(milliseconds: 1000),
+        elevation: 3,
         content: Text("Permissão Concedia"),
       );
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
