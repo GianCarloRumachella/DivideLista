@@ -24,8 +24,7 @@ class _DivisaoItensState extends State<DivisaoItens> {
   List<PessoaItem> listaPessoasItensCompleta = [];
 
   _salvarAtualizarPessoaItem(String nome, String itens, String telefone) async {
-    PessoaItem pessoa =
-        PessoaItem(nome: nome, itens: itens, telefone: telefone);
+    PessoaItem pessoa = PessoaItem(nome: nome, itens: itens, telefone: telefone);
     int resultado = await _db.salvarPessoaItens(pessoa);
     //print("resultado salvo:" + resultado.toString());
 
@@ -67,8 +66,7 @@ class _DivisaoItensState extends State<DivisaoItens> {
             DataCell(
               Icon(Icons.share),
               onTap: () {
-                FlutterOpenWhatsapp.sendSingleMessage("${pessoa.telefone}",
-                    "Olá ${pessoa.nome} segue sua lista de itens : ${pessoa.itens}");
+                FlutterOpenWhatsapp.sendSingleMessage("${pessoa.telefone}", "Olá ${pessoa.nome} segue sua lista de itens : ${pessoa.itens}");
               },
             ),
           ],
@@ -111,18 +109,13 @@ class _DivisaoItensState extends State<DivisaoItens> {
     pessoaItemTemporaria.clear();
 
     for (int i = 0; i < pessoaTemp.length; i++) {
-      pessoaItemTemporaria.add({
-        'nome': pessoaTemp[i].nome,
-        "itens": "",
-        "telefone": pessoaTemp[i].telefone
-      });
+      pessoaItemTemporaria.add({'nome': pessoaTemp[i].nome, "itens": "", "telefone": pessoaTemp[i].telefone});
     }
 
     for (int i = 0; i < _itensList.length; i++) {
       String aux;
       aux = pessoaItemTemporaria[index]["itens"] + " ";
-      pessoaItemTemporaria[index]
-          .update("itens", (value) => aux + _itensList[i]);
+      pessoaItemTemporaria[index].update("itens", (value) => aux + _itensList[i]);
       if (index < pessoaItemTemporaria.length) {
         index = (index + 1) % pessoaItemTemporaria.length;
         //print("index: " + index.toString());
@@ -135,8 +128,7 @@ class _DivisaoItensState extends State<DivisaoItens> {
     //salvando no banco de dados
     for (int i = 0; i < pessoaItemTemporaria.length; i++) {
       Pessoa pessoaTemp = Pessoa.fromMap(pessoaItemTemporaria[i]);
-      _salvarAtualizarPessoaItem(
-          pessoaTemp.nome, pessoaTemp.itens, pessoaTemp.telefone);
+      _salvarAtualizarPessoaItem(pessoaTemp.nome, pessoaTemp.itens, pessoaTemp.telefone);
     }
   }
 
@@ -171,8 +163,6 @@ class _DivisaoItensState extends State<DivisaoItens> {
     );
   }
 
-
-
   @override
   void initState() {
     super.initState();
@@ -187,22 +177,19 @@ class _DivisaoItensState extends State<DivisaoItens> {
             style: ElevatedButton.styleFrom(
               primary: Colors.blueGrey[800],
               elevation: 3,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(32))),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(32))),
             ),
             onPressed: () {
               // print("Dividindo a lista");
               _dividirLista();
             },
-            child: Icon(Icons
-                .format_list_numbered_rtl_sharp) /* Text("Dividir Lista") */
+            child: Icon(Icons.format_list_numbered_rtl_sharp) /* Text("Dividir Lista") */
             ),
         ElevatedButton(
           style: ElevatedButton.styleFrom(
             primary: Colors.blueGrey[800],
             elevation: 3,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(32))),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(32))),
           ),
           onPressed: () async {
             // print("Dividindo a lista");
@@ -210,11 +197,12 @@ class _DivisaoItensState extends State<DivisaoItens> {
           },
           child: Icon(Icons.delete_sweep_sharp) /* Text("Apagar Lista") */,
         ),
-       
       ],
       body: Container(
         padding: EdgeInsets.all(16),
-        child: _dataTable(),
+        child: SingleChildScrollView(
+          child: _dataTable(),
+        ),
       ),
     );
   }
